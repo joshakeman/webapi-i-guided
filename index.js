@@ -1,5 +1,7 @@
 const express = require('express')
 
+const db = require('./data/db.js')
+
 const server = express()
 
 server.listen(5000, () => {
@@ -8,4 +10,15 @@ server.listen(5000, () => {
 
 server.get('/', (req, res) => {
     res.send("It's alive!")
+})
+
+server.get('/hubs', (req, res) => {
+    db.hubs
+        .find()
+        .then(hubs => {
+            res.json(hubs)
+        })
+        .catch(err => {
+            res.json({ error: err, message: 'Something broke'})
+        })
 })
